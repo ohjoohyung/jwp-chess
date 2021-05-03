@@ -1,12 +1,13 @@
+
 package chess.controller.web;
 
 import chess.service.SpringChessService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestConstructor;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -16,13 +17,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class ChessRestControllerTest {
 
-    @Autowired
-    MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
-    @Autowired
-    SpringChessService chessService;
+    private final SpringChessService chessService;
+
+    public ChessRestControllerTest(MockMvc mockMvc, SpringChessService chessService) {
+        this.mockMvc = mockMvc;
+        this.chessService = chessService;
+    }
 
     @Test
     void startGame() throws Exception {
